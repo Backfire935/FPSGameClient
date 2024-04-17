@@ -8,7 +8,7 @@ public class TGameFPS : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Sockets", "Networking" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Sockets", "Networking", "AdvancedSessions","AdvancedSteamSessions" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

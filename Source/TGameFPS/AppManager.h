@@ -15,7 +15,7 @@ namespace app
 		
 	};
 
-	extern int run();
+	extern void run();
 	extern void onUpdate();//不停的检查连接，解析指令,不停的投递数据
 	extern net::TcpClient* __TcpClient;
 

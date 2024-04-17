@@ -77,7 +77,7 @@ namespace net
 						{
 							isFirstConnect = false;//设置为不是第一次连接
 						}
-						this->connectServer();//连接服务器
+						 this->connectServer();//连接服务器
 					}
 						break;
 					default:

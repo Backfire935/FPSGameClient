@@ -66,15 +66,15 @@ namespace app
 		func::__ClientInfo->SendOne = 8*1024;
 		func::__ClientInfo->SendMax = 256*1024;
 
-		func::__ClientInfo->HeartTime = 60;//15秒一次心跳
-		func::__ClientInfo->AutoTime = 30;//3秒一次自动重连
+		func::__ClientInfo->HeartTime = 10;//15秒一次心跳
+		func::__ClientInfo->AutoTime = 5;//3秒一次自动重连
 
 	}
 	
 	void AppManager::init()
 	{
 			InitClientXML();
-		
+
 			__TcpClient = new net::TcpClient;
 			__TcpClient->setOnConnect(onConnect);
 			__TcpClient->setOnSecure(onSecurityConnect);
@@ -85,11 +85,11 @@ namespace app
 			__TcpClient->runClient(0, "127.0.0.1",13400);//连接服务器
 			__TcpClient->getData()->ID = 0;//连接的时候去连接哪个服务器ID
 
-		
 	}
 
-	int run()
+	void run()
 	{
+
 		if(__AppManager == nullptr)
 		{
 			__AppManager = new AppManager();
@@ -97,6 +97,6 @@ namespace app
 		}
 
 		app::__TcpClient->setThread(false);//设置线程不暂停
-		return 0;
+
 	}
 }

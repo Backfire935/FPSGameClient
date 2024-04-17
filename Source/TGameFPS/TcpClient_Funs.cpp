@@ -48,10 +48,14 @@
 
      void TcpClient::parseCommand(uint16 cmd)
      {
-         m_data.time_HeartTime = __AppGameInstance->GetTimeSeconds();//设置心跳时间
          
          if(cmd < 65000)
          {
+             if (cmd == CMD_HEART)
+             {
+                 m_data.time_HeartTime = __AppGameInstance->GetTimeSeconds();//收到心跳回复 重置心跳时间
+                m_data.time_Heart = 1; //当标记用
+             }
            if(onCommand != nullptr) onCommand(this, cmd);
              return;
          }
@@ -105,26 +109,20 @@
          if(__AppGameInstance == nullptr) return;//如果没有实例化，直接返回
          auto c = getData();//获取数据
          if(c->state < func::C_ConnectSecure) return;//如果状态小于安全连接，直接返回
-
-         if(m_data.time_HeartTime > __AppGameInstance->GetTimeSeconds() || m_data.time_HeartTime == 0)//如果心跳时间大于当前时间或者等于0
-         {
-             m_data.time_HeartTime = __AppGameInstance->GetTimeSeconds();//设置心跳时间
-         }
          
-         int32 tempTime = __AppGameInstance->GetTimeSeconds() - m_data.time_HeartTime;//获取时间差
-         if(tempTime >= func::__ClientInfo->HeartTime * 1000)
+         int32 tempTime_1 = __AppGameInstance->GetTimeSeconds() - m_data.time_HeartTime;//算算从收到上个心跳包起有几秒没收到新的了
+         if(tempTime_1 >= func::__ClientInfo->HeartTime*2 ) //超过累计时间*2未收到回复
          {
-            this->disconnectServer(7000, "onheart");//断开连接
+            this->disconnectServer(7000, "onheart");//认为与网关断开连接
              return;
          }
 
-         tempTime = __AppGameInstance->GetTimeSeconds() - m_data.time_Heart;//获取时间差
-         if(tempTime >= 3000)//如果时间差大于3000,发送心跳包
+         if(tempTime_1 >= func::__ClientInfo->HeartTime && m_data.time_Heart == 1)//达到累计时间,该发送心跳包了
          {
-             m_data.time_Heart = __AppGameInstance->GetTimeSeconds();//设置心跳时间
                 begin(CMD_HEART);
                 sss(1);
                 end();
+				m_data.time_Heart = 0;//重置心跳标记
          }
      }
      

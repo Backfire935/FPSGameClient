@@ -17,7 +17,7 @@ class TGAMEFPS_API  UMyGameInstance : public UGameInstance
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "MyEngine")
-	int AppInitGameInstance();
+	void AppInitGameInstance();
 
 	UFUNCTION(BlueprintImplementableEvent, Category= "MyEngine")
 	void onCommand(int cmd);

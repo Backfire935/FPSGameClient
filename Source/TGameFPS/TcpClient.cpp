@@ -1,5 +1,6 @@
 #include"TcpClient.h"
 
+#include "MyGameInstance.h"
 #include "Interfaces/IPv4/IPv4Address.h"
 
 namespace func
@@ -41,6 +42,7 @@ namespace net
 		is_Sending = false;
 		is_SendCompleted = true;
 
+		time_HeartTime = 0;
 		time_Heart = 0;
 		time_AutoConnect = 0;
 
@@ -130,12 +132,17 @@ namespace net
 		{
 			socketfd->SetNonBlocking();//设置为非阻塞
 			m_data.state = func::C_Connect;//设置状态为连接
-			m_data.time_Heart = 0;//设置心跳时间为0
+			
+			if(__AppGameInstance)m_data.time_HeartTime = __AppGameInstance->GetTimeSeconds();//连接成功后设置心跳时间为当前游戏运行时间
+			else m_data.time_HeartTime = 0;
+			
+			m_data.time_Heart = 1;//设置心跳标记为1，初始允许发送心跳包
 			//if(onAcceptEvent != nullptr) onAcceptEvent(this, 0);//如果接受连接事件不为空，调用接受连接事件
-			return true;
+			
+			return isconnect;
 		}
 		
-		return false;
+		return isconnect;
 	}
 
 	//断开服务器
