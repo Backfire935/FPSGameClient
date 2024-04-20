@@ -53,7 +53,7 @@
          {
              if (cmd == CMD_HEART)
              {
-                 m_data.time_HeartTime = __AppGameInstance->GetTimeSeconds();//收到心跳回复 重置心跳时间
+                 m_data.time_HeartTime = __AppGameInstance->GetTimeSecondsManu();//收到心跳回复 重置心跳时间
                 m_data.time_Heart = 1; //当标记用
              }
            if(onCommand != nullptr) onCommand(this, cmd);
@@ -110,7 +110,7 @@
          auto c = getData();//获取数据
          if(c->state < func::C_ConnectSecure) return;//如果状态小于安全连接，直接返回
          
-         int32 tempTime_1 = __AppGameInstance->GetTimeSeconds() - m_data.time_HeartTime;//算算从收到上个心跳包起有几秒没收到新的了
+         int32 tempTime_1 = __AppGameInstance->GetTimeSecondsManu() - m_data.time_HeartTime;//算算从收到上个心跳包起有几秒没收到新的了
          if(tempTime_1 >= func::__ClientInfo->HeartTime*2 ) //超过累计时间*2未收到回复
          {
             this->disconnectServer(7000, "onheart");//认为与网关断开连接
@@ -516,5 +516,6 @@
         onCommand = event;    
      }
 
+     
 }
 

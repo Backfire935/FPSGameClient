@@ -15,25 +15,25 @@ struct FPlayerBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	int32  memid;
+	int32  memid = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	int32 socketfd;
+	int32 socketfd = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	int32 state;
+	int32 state = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	int32 curhp;
+	int32 curhp = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	int32 maxhp;
+	int32 maxhp = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	float speed;
+	float speed = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	FVector pos;
+	FVector pos = FVector::ZeroVector;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	FRotator rot;
+	FRotator rot = FRotator::ZeroRotator;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="MyEngine")
-	FString nick;
+	FString nick = "";
 
 };
 #pragma pack(pop,packing)

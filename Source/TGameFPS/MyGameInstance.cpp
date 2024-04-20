@@ -7,20 +7,34 @@
 
 UMyGameInstance* __AppGameInstance = nullptr;
 
+
 void UMyGameInstance::AppInitGameInstance()
 {
-	auto MyWorld = GetWorld();
-	__AppGameInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
-
+	if(GetWorld())
+	{
+		auto MyWorld = GetWorld();
+		__AppGameInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	}
+	else
+	{
+		FString ss = FString::Printf(TEXT("GetWorld() failure"));
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, ss);//´òÓ¡ÏûÏ¢
+		return;
+	}
 	app::run();
 
 }
 
-int32 UMyGameInstance::GetTimeSeconds()
+void UMyGameInstance::UpdateTimeSecondsManu(float time)
 {
-	int32 ftime = GetWorld()->GetTimeSeconds();
-	return ftime;
+	GlobalTimeSeconds = GlobalTimeSeconds + time;
 }
+
+float UMyGameInstance::GetTimeSecondsManu()
+{
+	return GlobalTimeSeconds;
+}
+
 
 void UMyGameInstance::Shutdown()
 {
@@ -32,4 +46,6 @@ void UMyGameInstance::Shutdown()
 
 	Super::Shutdown();
 }
+
+
 

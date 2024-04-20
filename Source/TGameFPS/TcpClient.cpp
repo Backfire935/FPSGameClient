@@ -133,7 +133,7 @@ namespace net
 			socketfd->SetNonBlocking();//设置为非阻塞
 			m_data.state = func::C_Connect;//设置状态为连接
 			
-			if(__AppGameInstance)m_data.time_HeartTime = __AppGameInstance->GetTimeSeconds();//连接成功后设置心跳时间为当前游戏运行时间
+			if(__AppGameInstance)m_data.time_HeartTime = __AppGameInstance->GetTimeSecondsManu();//连接成功后设置心跳时间为当前游戏运行时间
 			else m_data.time_HeartTime = 0;
 			
 			m_data.time_Heart = 1;//设置心跳标记为1，初始允许发送心跳包

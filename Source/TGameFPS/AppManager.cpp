@@ -5,7 +5,7 @@ namespace app
 {
 	AppManager* __AppManager = nullptr;
 	net::TcpClient* __TcpClient = nullptr;
-	
+
 	AppManager::AppManager()
 	{
 	}
@@ -17,7 +17,12 @@ namespace app
 
 	void onUpdate()
 	{
-		if (__TcpClient == nullptr) return;
+		if (__TcpClient == nullptr)
+		{
+			FString ss = FString::Printf(TEXT("__TcpClient== NULL"));
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, ss);//打印消息
+			return;
+		}
 			__TcpClient->parseCommand();
 		
 	}
@@ -66,8 +71,8 @@ namespace app
 		func::__ClientInfo->SendOne = 8*1024;
 		func::__ClientInfo->SendMax = 256*1024;
 
-		func::__ClientInfo->HeartTime = 10;//15秒一次心跳
-		func::__ClientInfo->AutoTime = 5;//3秒一次自动重连
+		func::__ClientInfo->HeartTime = 15;//15秒一次心跳
+		func::__ClientInfo->AutoTime = 1;//3秒一次自动重连
 
 	}
 	
@@ -75,7 +80,7 @@ namespace app
 	{
 			InitClientXML();
 
-			__TcpClient = new net::TcpClient;
+			__TcpClient = new net::TcpClient();
 			__TcpClient->setOnConnect(onConnect);
 			__TcpClient->setOnSecure(onSecurityConnect);
 			__TcpClient->setOnDisConnect(onDisconnect);	

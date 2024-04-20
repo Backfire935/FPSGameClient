@@ -92,6 +92,7 @@ namespace net
 		int32			time_AutoConnect;//存放连接时间
 		int32			time_Heart =0;//记录心跳时间
 		int32			time_HeartTime =0;//客户端记录心跳时间
+
 		FString			md5;//MD5码安全验证
 
 		void	Init(int sid);

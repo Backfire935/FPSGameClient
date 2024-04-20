@@ -19,6 +19,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "MyEngine")
 	void AppInitGameInstance();
 
+	UFUNCTION(BlueprintCallable, Category = "MyEngine")
+	void UpdateTimeSecondsManu(float time);//按帧增加时间
+
+	UFUNCTION(BlueprintCallable, Category = "MyEngine")
+	float GetTimeSecondsManu();
+
 	UFUNCTION(BlueprintImplementableEvent, Category= "MyEngine")
 	void onCommand(int cmd);
 
@@ -33,10 +39,10 @@ public:
 	
 	UFUNCTION(BlueprintImplementableEvent, Category= "MyEngine")
 	void onExcept(int errcode);
-	
-	int32 GetTimeSeconds();
 
 	virtual void Shutdown();
+
+	float GlobalTimeSeconds = 0;//全局心跳时间
 };
 
 extern UMyGameInstance* __AppGameInstance;

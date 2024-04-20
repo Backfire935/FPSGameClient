@@ -108,6 +108,7 @@ namespace net
 		 void setOnDisConnect(TCPCLIENTNOTIFY_EVENT event) ;//失去连接
 		 void setOnExcept(TCPCLIENTNOTIFY_EVENT event) ;//异常
 		void setOnCommand(TCPCLIENTNOTIFY_EVENT event) ;//注册事件
+
 	};
 
 
