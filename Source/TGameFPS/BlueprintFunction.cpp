@@ -184,3 +184,36 @@ void UBlueprintFunction::send_FString(FString value)
 	app::__TcpClient->sss(size);//
 	app::__TcpClient->sss(cc, size);//
 }
+
+void UBlueprintFunction::GetAllGameServers()
+{
+}
+
+void UBlueprintFunction::JoinOneGameServer(int PlayerID, int ServerId)
+{
+}
+
+void UBlueprintFunction::CreateRoomInGameServer(int PlayerID, int ServerId, FRoomSettings RoomSettings)
+{
+}
+
+void UBlueprintFunction::GetAllRoomsInGameServer()
+{
+}
+
+void UBlueprintFunction::JoinRoomInGameServer(int PlayerID, int RoomId)
+{
+}
+
+void UBlueprintFunction::LeaveRoomInGameServer(int PlayerID, int RoomId)
+{
+}
+
+void UBlueprintFunction::ChangeRoomSettings(int PlayerID, int RoomId, FRoomSettings RoomSettings)
+{
+
+}
+
+void UBlueprintFunction::ReadyOrNot(int PlayerID, int RoomId, bool bReady)
+{
+}

@@ -48,9 +48,6 @@ namespace  func
 
 	};
 
-	
-
-
 	extern ConfigXML* __ClientInfo; //客户端XML指针变量
 	
 

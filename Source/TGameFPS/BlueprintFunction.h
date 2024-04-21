@@ -36,6 +36,82 @@ struct FPlayerBase
 	FString nick = "";
 
 };
+
+USTRUCT(BlueprintType)
+struct FRoomSettings//房间设置
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	FString RoomMode = "";//房间模式
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	FString RoomMap = "";//房间地图
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	bool bFriendlyDamage = false;//是否开启友伤
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	bool bAddBots = false;//是否添加机器人
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 TeamABotsNum = 0;//A队Bot数量
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 TeamBBotsNum = 0;//B队Bot数量
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	FString RoomLevel = "";//关卡难度 || AI难度
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 RoomMaxPlayer = 0;//房间最大人数
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 RoomCurPlayer = 0;//房间当前人数
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 WinTarget = 0;//胜利条件
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	FString RoundTime = "";//对局时间
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RoomSettings")
+	int32 RoomID = 0;//房间ID
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RoomSettings")
+	int32 RoomType = 0;//房间类型
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RoomSettings")
+	int32 RoomState = 0;//房间状态 是否开始游戏
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RoomSettings")
+	int32 RoomOwner = 0;//房主memID
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RoomSettings")
+	FString RoomName = "突破自己";//房间名字
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="RoomSettings")
+	FString RoomPassword = "";//房间密码
+};
+
+USTRUCT(BlueprintType)
+struct FRoomInfo //房间的简易信息
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	FString RoomMode = "";//房间模式
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	FString RoomMap = "";//房间地图
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 RoomMaxPlayer = 0;//房间最大人数
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 RoomCurPlayer = 0;//房间当前人数
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	FString RoomName = "";//房间名字
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RoomSettings")
+	int32 RoomState = 0;//房间状态 是否开始游戏
+
+};
+
+USTRUCT(BlueprintType)
+struct FGameServerInfo//游戏服务器信息
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "GameServerInfo")
+	int32 ServerID = 0;//服务器ID
+	UPROPERTY(BlueprintReadOnly, Category = "GameServerInfo")
+	FString ServerName = "";//服务器名字
+	UPROPERTY(BlueprintReadOnly, Category = "GameServerInfo")
+	TArray<FRoomInfo> RoomInfos;//所有的房间信息
+};
+
+
 #pragma pack(pop,packing)
 
 /**
@@ -118,5 +194,32 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "MyEngine")
 	static void send_FString(FString value);
-	
+
+	/// <summary>
+	/// 注意这里的函数都是申请获得数据，不是直接获取数据，数据要等待服务器返回从OnCommand里面获取，具体在GameInstance的蓝图里面实现
+	/// </summary>
+	UFUNCTION(BlueprintCallable, Category = "GameServer")
+	static void GetAllGameServers();//获取所有的GameServer的情况 获取玩家在线数量,房间数量 即可
+
+	UFUNCTION(BlueprintCallable, Category = "GameServer")
+	static void JoinOneGameServer(int PlayerID, int ServerId);//玩家xx加入一个GameServer
+
+	UFUNCTION(BlueprintCallable, Category = "CreateGame")
+	static void CreateRoomInGameServer(int PlayerID, int ServerId, FRoomSettings RoomSettings);//玩家xx在xxGameServer创建游戏房间，供其他玩家加入和准备游戏
+
+	UFUNCTION(BlueprintCallable, Category = "CreateGame")
+	static void GetAllRoomsInGameServer();//申请获取当前GameServer所有的游戏房间信息
+
+	UFUNCTION(BlueprintCallable, Category = "CreateGame")
+	static void JoinRoomInGameServer(int PlayerID, int RoomId);//玩家xx申请加入xx房间
+
+	UFUNCTION(BlueprintCallable, Category = "CreateGame")
+	static void LeaveRoomInGameServer(int PlayerID, int RoomId);//玩家xx申请离开xx房间
+
+	UFUNCTION(BlueprintCallable, Category = "CreateGame")
+	static void ChangeRoomSettings(int PlayerID, int RoomId, FRoomSettings RoomSettings);//玩家xx申请修改xx房间设置
+
+	UFUNCTION(BlueprintCallable, Category = "CreateGame")
+	static void ReadyOrNot(int PlayerID, int RoomId, bool bReady);//玩家准备或者取消准备,如果是房主就申请开始游戏
+
 };
